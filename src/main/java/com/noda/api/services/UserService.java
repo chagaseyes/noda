@@ -7,10 +7,14 @@ import java.util.List;
 
 @Service
 public class UserService {
+    private List<User> users = new ArrayList<>(List.of(
+            new User(1L, "Chagas", "gabriel@gmail.com")
+    ));
+
     public List<User> findAllUsers() {
-        List <User> users = new ArrayList<>();
-        users.add(new User(1L, "Gabriel", "gabriel@email.com"));
-        users.add(new User(2L, "Senior Mentor", "mentor@email.com"));
         return users;
     }
+
+    public void addUser (User user) {
+        users.add(user);}
 }
