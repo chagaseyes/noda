@@ -1,20 +1,24 @@
 package com.noda.api.services;
 
 import com.noda.api.models.User;
+import com.noda.api.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
+
 import java.util.List;
 
-@Service
-public class UserService {
-    private List<User> users = new ArrayList<>(List.of(
-            new User(1L, "Chagas", "gabriel@gmail.com")
-    ));
 
-    public List<User> findAllUsers() {
-        return users;
+@Service
+@RequiredArgsConstructor
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    public User createUser(User user) {
+        return userRepository.save(user);
     }
 
-    public void addUser (User user) {
-        users.add(user);}
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
 }
