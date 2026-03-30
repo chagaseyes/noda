@@ -1,7 +1,7 @@
 package com.noda.api.services;
 
 import com.noda.api.exceptions.AccountNotFoundException;
-import com.noda.api.exceptions.InsufficientFoundsException;
+import com.noda.api.exceptions.InsufficientFundsException;
 import com.noda.api.exceptions.SameAccountTransferException;
 import com.noda.api.models.Account;
 import com.noda.api.repositories.AccountRepository;
@@ -39,7 +39,7 @@ public class AccountService {
               .orElseThrow(() -> new AccountNotFoundException("Target account not found"));
 
       if (source.getBalance().compareTo(amount) < 0) {
-          throw new InsufficientFoundsException("Insufficient funds in account ");
+          throw new InsufficientFundsException("Insufficient funds in account ");
       }
 
       source.setBalance(source.getBalance().subtract(amount));
