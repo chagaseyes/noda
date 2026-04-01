@@ -4,7 +4,10 @@ import com.noda.api.exceptions.AccountNotFoundException;
 import com.noda.api.exceptions.InsufficientFundsException;
 import com.noda.api.exceptions.SameAccountTransferException;
 import com.noda.api.models.Account;
+import com.noda.api.models.User;
+import com.noda.api.models.enums.AccountType;
 import com.noda.api.repositories.AccountRepository;
+import com.noda.api.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,18 +20,31 @@ import java.math.BigDecimal;
 public class AccountService {
 
     private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
 
-    public Account createAccount(Account account) {
-        return accountRepository.save(account);
+    public Account createAccount(Long userId, String accountNumber, BigDecimal balance, AccountType type) {
+        User owner = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Account newAccount = new Account();
+        newAccount.setAccountNumber(accountNumber);
+        newAccount.setAccountType(type);
+        newAccount.setBalance(balance);
+        newAccount.setUser(owner);
+
+        return accountRepository.save(newAccount);
     }
 
     public List<Account> findAllAccounts() {
         return accountRepository.findAll();
     }
 
-
   @Transactional
   public void transfer(Long sourceId, Long targetId, BigDecimal amount) {
+       if(amount.compareTo(BigDecimal.ZERO) <= 0) {
+           throw new IllegalArgumentException("Transfer amount must be positive");
+       }
+
         if(sourceId.equals(targetId)) {
             throw new SameAccountTransferException("Source and target IDs are the same: " + sourceId);
         }

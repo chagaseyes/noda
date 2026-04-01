@@ -1,26 +1,33 @@
 package com.noda.api.models;
 
+import com.noda.api.models.enums.AccountType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
+@Entity
+@Getter
+@Setter
+@Table(name = "tb_accounts")
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal balance = BigDecimal.ZERO;
-
+    @Column(unique = true, nullable = false)
     private String accountNumber;
 
+    private BigDecimal balance = BigDecimal.ZERO;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AccountType accountType;
+
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }
