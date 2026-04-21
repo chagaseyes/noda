@@ -55,13 +55,22 @@ public class AccountService {
               .orElseThrow(() -> new AccountNotFoundException("Target account not found"));
 
       if (source.getBalance().compareTo(amount) < 0) {
-          throw new InsufficientFundsException("Insufficient funds in account ");
+          throw new InsufficientFundsException("Insufficient funds in account: " +source.getAccountNumber());
       }
 
       source.setBalance(source.getBalance().subtract(amount));
       target.setBalance(target.getBalance().add(amount));
+  }
 
-      accountRepository.save(source);
-      accountRepository.save(target);
+  @Transactional
+  public void deposit(Long id, BigDecimal amount) {
+        if(amount.compareTo(BigDecimal.ZERO) <=0) {
+            throw new IllegalArgumentException("Deposit amount must be positive");
+        }
+
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new AccountNotFoundException("Account not found"));
+
+        account.setBalance(account.getBalance().add(amount));
   }
 }
