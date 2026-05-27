@@ -1,4 +1,4 @@
-package com.noda.api.main;
+package com.noda.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
