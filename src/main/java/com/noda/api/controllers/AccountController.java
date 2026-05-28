@@ -2,6 +2,7 @@ package com.noda.api.controllers;
 
 import com.noda.api.dtos.AccountResponseDTO;
 import com.noda.api.dtos.TransactionRequestDTO;
+import com.noda.api.dtos.TransactionResponseDTO;
 import com.noda.api.dtos.TransferRequestDTO;
 import com.noda.api.models.Account;
 import com.noda.api.models.Transaction;
@@ -70,8 +71,19 @@ public class AccountController {
     }
 
     @GetMapping("/{accountId}/statement")
-    public ResponseEntity<List<Transaction>> getAccountStatement (@PathVariable Long accountId) {
-    List<Transaction> statement = accountService.getAccountStatement(accountId);
-        return ResponseEntity.ok(statement);
+    public ResponseEntity<List<TransactionResponseDTO>> getAccountStatement (@PathVariable Long accountId) {
+    List<Transaction> transactions = accountService.getAccountStatement(accountId);
+
+        List<TransactionResponseDTO> response = transactions.stream()
+                .map(tx -> new TransactionResponseDTO(
+                        tx.getId(),
+                        tx.getAmount(),
+                        tx.getTransactionType().name(),
+                        tx.getTimestamp(),
+                        tx.getAccount().getAccountNumber(),
+                        tx.getAccount().getUser().getName()
+                ))
+                .toList();
+        return ResponseEntity.ok(response);
     }
 }

@@ -21,7 +21,7 @@ public class Transaction {
 
     @Id
     @GeneratedValue
-    private Long transactionId;
+    private Long Id;
 
     @Column(nullable = false)
     private BigDecimal amount;
