@@ -1,10 +1,10 @@
 package com.noda.api.controllers;
 
+import com.noda.api.dtos.UserRequestDTO;
 import com.noda.api.dtos.UserResponseDTO;
-import com.noda.api.exceptions.CpfAlreadyRegisteredException;
-import com.noda.api.exceptions.EmailAlreadyRegisteredException;
 import com.noda.api.models.User;
 import com.noda.api.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return ResponseEntity.ok(userService.save(user));
+    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO dto) {
+        UserResponseDTO response = userService.save(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 

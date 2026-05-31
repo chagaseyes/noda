@@ -1,9 +1,6 @@
 package com.noda.api.controllers;
 
-import com.noda.api.dtos.AccountResponseDTO;
-import com.noda.api.dtos.TransactionRequestDTO;
-import com.noda.api.dtos.TransactionResponseDTO;
-import com.noda.api.dtos.TransferRequestDTO;
+import com.noda.api.dtos.*;
 import com.noda.api.models.Account;
 import com.noda.api.models.Transaction;
 import com.noda.api.services.AccountService;
@@ -23,7 +20,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<AccountResponseDTO> createAccount(@Valid @RequestBody com.noda.api.dtos.AccountRequestDTO dto) {
+    public ResponseEntity<AccountResponseDTO> createAccount(@Valid @RequestBody AccountRequestDTO dto) {
         Account account = accountService.createAccount(dto);
 
         AccountResponseDTO response = new AccountResponseDTO(

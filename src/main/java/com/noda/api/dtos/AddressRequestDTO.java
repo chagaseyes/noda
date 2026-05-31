@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public record AddressRequestDTO (
         @NotBlank(message = "CEP must be chosen")
-        String CEP,
+        String cep,
         @NotBlank(message = "House or building number is required")
         String number,
 
