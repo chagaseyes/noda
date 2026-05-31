@@ -7,5 +7,6 @@ public record UserResponseDTO (
      String userName,
      LocalDate userBirthday,
      String UserCPF,
-     String UserEmail
+     String UserEmail,
+     AddressResponseDTO address
 ) {}

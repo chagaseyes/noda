@@ -1,5 +1,6 @@
 package com.noda.api.controllers;
 
+import com.noda.api.dtos.UserResponseDTO;
 import com.noda.api.exceptions.CpfAlreadyRegisteredException;
 import com.noda.api.exceptions.EmailAlreadyRegisteredException;
 import com.noda.api.models.User;
@@ -19,6 +20,13 @@ public class UserController {
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
         return ResponseEntity.ok(userService.save(user));
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
+        UserResponseDTO response = userService.findUserByIdMapped(id);
+        return ResponseEntity.ok(response);
     }
 }
 

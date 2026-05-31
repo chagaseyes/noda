@@ -37,7 +37,7 @@ public class Address {
     @Column
     private String complement;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 }
